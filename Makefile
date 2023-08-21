@@ -370,8 +370,8 @@ load_check:
 filter/%:
 	$(eval CONFIG_SWITCH_NAME = $*)
 	$(eval CONFIG_VARIANT = $(shell echo $(CONFIG_SWITCH_NAME) | grep -oP '([0-9]|\.)*'  ))
-	@echo $(CONFIG_VARIANT)
-	@{ case $(CONFIG_VARIANT) in \
+	@echo "$(CONFIG_VARIANT)"
+	@{ case "$(CONFIG_VARIANT)" in \
 		*5.2.0*) echo "Filtering some benchmarks for OCaml ${CONFIG_VARIANT}"; \
 			jq '{wrappers : .wrappers, benchmarks: [.benchmarks | .[] | select( .name as $$name | ["irmin_replay", "cpdf", "frama-c", "js_of_ocaml", "graph500_kernel1", "graph500_kernel1_multicore"] | index($$name) | not )]}' $(RUN_CONFIG_JSON) > $(RUN_CONFIG_JSON).tmp; \
 			mv $(RUN_CONFIG_JSON).tmp $(RUN_CONFIG_JSON); \
@@ -391,7 +391,7 @@ filter/%:
 		*) echo "Not filtering benchmarks for OCaml ${CONFIG_VARIANT}";; \
 	esac };
 
-depend: check_url load_check
+depend:
 	$(foreach d, $(DEPENDENCIES),      $(call check_dependency, $(d), dpkg -l,   Install on Ubuntu using apt.))
 	$(foreach d, $(PIP_DEPENDENCIES),  $(call check_dependency, $(d), pip3 list --format=columns, Install using pip3 install.))
 
