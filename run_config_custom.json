@@ -1,0 +1,60 @@
+{
+  "wrappers": [
+    {
+      "name": "orun",
+      "command": "orun -o %{output} -- taskset --cpu-list 5,7 %{command}"
+    },
+    {
+      "name": "perfstat",
+      "command": "perf stat -o %{output} -- taskset --cpu-list 5 %{command}"
+    },
+    {
+      "name": "pausetimes",
+      "command": "%{dep:pausetimes/pausetimes} %{output} taskset --cpu-list 5 %{command}"
+    }
+  ],
+  "benchmarks": [
+    {
+      "executable": "benchmarks/decompress/test_decompress.exe",
+      "name": "test_decompress",
+      "tags": [
+        "1s_10s",
+        "macro_bench",
+        "run_in_ci"
+      ],
+      "runs": [
+        {
+          "params": "64 524_288"
+        }
+      ]
+    },
+    {
+      "executable": "benchmarks/thread-lwt/thread_ring_lwt_mvar.exe",
+      "name": "thread_ring_lwt_mvar",
+      "tags": [
+        "1s_10s",
+        "macro_bench",
+        "run_in_ci"
+      ],
+      "runs": [
+        {
+          "params": "20_000"
+        }
+      ]
+    },
+    {
+      "executable": "benchmarks/benchmarksgame/revcomp2.exe",
+      "name": "revcomp2",
+      "tags": [
+        "1s_10s",
+        "macro_bench",
+        "run_in_ci"
+      ],
+      "runs": [
+        {
+          "params": ""
+        }
+      ]
+    }
+  ]
+}

@@ -17,8 +17,22 @@ let make_th mvars n id =
       do_n_times (pred n) in
   do_n_times n
 
+let loop_rp data =
+  let arr = [| Obj.repr data |] in
+  let dom = Domain.spawn (fun () ->
+    let rec loop () =
+      let x = Obj.uniquely_reachable_words arr in
+      ignore x;
+      loop ()
+    in
+    loop ())
+  in
+  ignore dom;
+  ()
+
 let main n =
   let mvars = Array.init 503 (fun _ -> Lwt_mvar.create_empty ()) in
+  loop_rp mvars;
   let ths = Array.init 503 @@ make_th mvars n in
   Lwt_mvar.put mvars.(0) () >>= fun () ->
   ths.(502)

@@ -67,8 +67,22 @@ let data_to_compress =
   let fn _ = Char.chr (97 + Random.int 26) in
   String.init data_size fn
 
+let loop_rp data =
+  let arr = [| Obj.repr data |] in
+  let dom = Domain.spawn (fun () ->
+    let rec loop () =
+      let x = Obj.uniquely_reachable_words arr in
+      ignore x;
+      loop ()
+    in
+    loop ())
+  in
+  ignore dom;
+  ()
+
 let () =
   let iter_count = ref 0 in
+  let () = loop_rp data_to_compress in
   for run = 1 to iterations do
     let result = compress data_to_compress in
     let original = uncompress result in
