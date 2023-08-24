@@ -1,4 +1,4 @@
-(executable (name kronecker) (modules kronecker))
+(executable (name kronecker) (modules kronecker) (libraries unix))
 
 (library
   (name generateSeq)

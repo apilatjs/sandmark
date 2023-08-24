@@ -1,7 +1,8 @@
 (executable
   (name hamming)
   (modes native byte)
-  (modules hamming))
+  (modules hamming)
+  (libraries unix))
 (alias (name buildbench)
        (deps hamming.exe))
 (alias (name bytebench)

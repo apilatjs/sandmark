@@ -50,8 +50,23 @@ let f_w adj =
     done
   done
 
+let loop_rp data =
+  let arr = [| Obj.repr data |] in
+  let dom = Domain.spawn (fun () ->
+    let rec loop () =
+      let x = Obj.uniquely_reachable_words arr in
+      ignore x;
+      Unix.sleepf 0.001;
+      loop ()
+    in
+    loop ())
+  in
+  ignore dom;
+  ()
+
 let () =
   Random.init 512;
   let adj = make_adj n in
+  loop_rp adj;
   f_w adj
  (* print_mat adj*)

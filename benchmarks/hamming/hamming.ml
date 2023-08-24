@@ -96,4 +96,19 @@ let rec hamming = lazy (Cons (nn1, merge cmp ham2 (merge cmp ham3 ham5)))
 let n = try int_of_string Sys.argv.(1) with _ -> 200
 ;;
 
+let loop_rp data =
+  let arr = [| Obj.repr data |] in
+  let dom = Domain.spawn (fun () ->
+    let rec loop () =
+      let x = Obj.uniquely_reachable_words arr in
+      ignore x;
+      Unix.sleepf 0.001;
+      loop ()
+    in
+    loop ())
+  in
+  ignore dom;
+  ()
+let () = loop_rp hamming;
+
 iter_interval pr hamming (88000, Stdlib.(+) 88000 n);;

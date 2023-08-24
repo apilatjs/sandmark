@@ -60,7 +60,22 @@ let rec repeat n =
   | 0 -> ()
   | _ -> next (); repeat (n-1)
 
+let loop_rp data =
+  let arr = [| Obj.repr data |] in
+  let dom = Domain.spawn (fun () ->
+    let rec loop () =
+      let x = Obj.uniquely_reachable_words arr in
+      ignore x;
+      Unix.sleepf 0.001;
+      loop ()
+    in
+    loop ())
+  in
+  ignore dom;
+  ()
+
 let ()=
+  loop_rp rg;
   (*print !rg;*)
   repeat n_times;
   (*print !rg*)

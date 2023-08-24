@@ -28,14 +28,30 @@ let rev a =
     done;
   a
 
+let loop_rp data =
+  let arr = [| Obj.repr data |] in
+  let dom = Domain.spawn (fun () ->
+    let rec loop () =
+      let x = Obj.uniquely_reachable_words arr in
+      ignore x;
+      Unix.sleepf 0.001;
+      loop ()
+    in
+    loop ())
+  in
+  ignore dom;
+  ()
+
 let big_array_int_rev iterations length =
   let a = create_int_array length in
+  loop_rp a;
   for i = 1 to iterations do
     Sys.opaque_identity (ignore (rev a))
   done
 
 let big_array_int32_rev iterations length =
   let a = create_int32_array length in
+  loop_rp a;
   for i = 1 to iterations do
     Sys.opaque_identity (ignore (rev a))
   done

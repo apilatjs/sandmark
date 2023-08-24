@@ -6,26 +6,12 @@
 
 open Bytes
 
-let loop_rp data =
-  let arr = [| Obj.repr data |] in
-  let dom = Domain.spawn (fun () ->
-    let rec loop () =
-      let x = Obj.uniquely_reachable_words arr in
-      ignore x;
-      loop ()
-    in
-    loop ())
-  in
-  ignore dom;
-  ()
-
 let () =
   let t, b, bi = make 256 ' ', make 61 '\n', ref 1 in
   blit_string "TVGHEFCDIJMLKNOPQYSAABWXRZ" 0 t 65 26;
   blit t 65 t 97 26;
 
   let kinput = open_in "input25000000.txt" in
-  loop_rp kinput;
   let rec rd ls =
     let l, q = try input_line kinput, false with _ -> "", true in
     if l <> "" && l.[0] <> '>' then rd (l::ls)

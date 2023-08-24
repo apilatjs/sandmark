@@ -68,8 +68,24 @@ let arr =
     then (1024 * 1024) else int_of_string Sys.argv.(1) in
   Array.init len (fun i -> { re = float_of_int i; im = 0.0})
 
+let loop_rp data =
+  let arr = [| Obj.repr data |] in
+  let dom = Domain.spawn (fun () ->
+    let rec loop () =
+      let x = Obj.uniquely_reachable_words arr in
+      ignore x;
+      Unix.sleepf 0.001;
+      loop ()
+    in
+    loop ())
+  in
+  ignore dom;
+  ()
+
 let main () =
-  arr
+  let a = arr in
+  loop_rp a;
+  a
   |> fft
   |> ifft
 

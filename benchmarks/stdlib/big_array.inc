@@ -1,4 +1,4 @@
-(executable (name big_array_bench) (modes native byte) (modules big_array_bench) (libraries bigarray))
+(executable (name big_array_bench) (modes native byte) (modules big_array_bench) (libraries bigarray unix))
 
 (alias (name buildbench) (deps big_array_bench.exe))
 

@@ -28,8 +28,23 @@ let lup (a0 : float array) =
   done ;
   a
 
+let loop_rp data =
+  let arr = [| Obj.repr data |] in
+  let dom = Domain.spawn (fun () ->
+    let rec loop () =
+      let x = Obj.uniquely_reachable_words arr in
+      ignore x;
+      Unix.sleepf 0.001;
+      loop ()
+    in
+    loop ())
+  in
+  ignore dom;
+  ()
+
 let () =
   let a = create (fun _ _ -> (Random.float 100.0)+.1.0) in
+  loop_rp a;
   let lu = lup a in
   let _l = create (fun i j -> if i > j then get lu i j else if i = j then 1.0 else 0.0) in
   let _u = create (fun i j -> if i <= j then get lu i j else 0.0) in

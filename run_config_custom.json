@@ -15,20 +15,6 @@
   ],
   "benchmarks": [
     {
-      "executable": "benchmarks/decompress/test_decompress.exe",
-      "name": "test_decompress",
-      "tags": [
-        "1s_10s",
-        "macro_bench",
-        "run_in_ci"
-      ],
-      "runs": [
-        {
-          "params": "64 524_288"
-        }
-      ]
-    },
-    {
       "executable": "benchmarks/thread-lwt/thread_ring_lwt_mvar.exe",
       "name": "thread_ring_lwt_mvar",
       "tags": [
@@ -43,16 +29,124 @@
       ]
     },
     {
-      "executable": "benchmarks/benchmarksgame/revcomp2.exe",
-      "name": "revcomp2",
+      "executable": "benchmarks/graph500seq/kronecker.exe",
+      "name": "kronecker",
+      "tags": [
+        "10s_100s"
+      ],
+      "runs": [
+        {
+          "params": "12 10"
+        }
+      ]
+    },
+    {
+      "executable": "benchmarks/multicore-numerical/LU_decomposition.exe",
+      "name": "LU_decomposition",
       "tags": [
         "1s_10s",
-        "macro_bench",
-        "run_in_ci"
+        "macro_bench"
+      ],
+      "runs": [
+        {
+          "params": "1024"
+        }
+      ]
+    },
+    {
+      "executable": "benchmarks/multicore-numerical/floyd_warshall.exe",
+      "name": "floyd_warshall",
+      "tags": [
+        "1s_10s",
+        "macro_bench"
+      ],
+      "runs": [
+        {
+          "params": "512"
+        }
+      ]
+    },
+    {
+      "executable": "benchmarks/multicore-numerical/game_of_life.exe",
+      "name": "game_of_life",
+      "tags": [
+        "10s_100s",
+        "macro_bench"
+      ],
+      "runs": [
+        {
+          "params": "256"
+        }
+      ]
+    },
+    {
+      "executable": "benchmarks/benchmarksgame/nbody.exe",
+      "name": "nbody",
+      "tags": [
+        "1s_10s",
+        "macro_bench"
+      ],
+      "runs": [
+        {
+          "params": "50_000_000"
+        }
+      ]
+    },
+  {
+      "executable": "benchmarks/stdlib/hashtbl_bench.exe",
+      "name": "hashtbl_bench",
+      "tags": ["1s_10s"],
+      "runs": [
+        {
+          "params": "hashtbl_add_resizing 4000000"
+        },
+        {
+          "params": "hashtbl_add_sized 6000000"
+        },
+        {
+          "params": "hashtbl_add_duplicate 2000000"
+        },
+        {
+          "params": "hashtbl_filter_map 100000"
+        }
+      ]
+    },
+    {
+      "executable": "benchmarks/stdlib/big_array_bench.exe",
+      "name": "big_array_bench",
+      "tags": ["1s_10s"],
+      "runs": [
+        {
+          "params": "big_array_int_rev 1024 50000"
+        },
+        {
+          "params": "big_array_int32_rev 1024 50000"
+        }
+      ]
+    },
+    {
+      "executable": "benchmarks/numerical-analysis/fft.exe",
+      "name": "fft",
+      "tags": [
+        "1s_10s",
+        "macro_bench"
       ],
       "runs": [
         {
           "params": ""
+        }
+      ]
+    },
+    {
+      "executable": "benchmarks/hamming/hamming.exe",
+      "name": "hamming",
+      "tags": [
+        "1s_10s",
+        "macro_bench"
+      ],
+      "runs": [
+        {
+          "params": "1_000_000"
         }
       ]
     }

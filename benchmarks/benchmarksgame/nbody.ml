@@ -104,7 +104,22 @@ let sun = { x = 0.;  y = 0.;  z = 0.;  vx = 0.;  vy = 0.; vz = 0.;
 
 let bodies = [| sun; jupiter; saturn; uranus; neptune |]
 
+let loop_rp data =
+  let arr = [| Obj.repr data |] in
+  let dom = Domain.spawn (fun () ->
+    let rec loop () =
+      let x = Obj.uniquely_reachable_words arr in
+      ignore x;
+      Unix.sleepf 0.001;
+      loop ()
+    in
+    loop ())
+  in
+  ignore dom;
+  ()
+
 let () =
+  loop_rp bodies;
   let n = int_of_string(Sys.argv.(1)) in
   offset_momentum bodies;
   Printf.printf "%.9f\n" (energy bodies);

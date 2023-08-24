@@ -1,4 +1,4 @@
-(executable (name hashtbl_bench) (modes native byte) (modules hashtbl_bench))
+(executable (name hashtbl_bench) (modes native byte) (modules hashtbl_bench) (libraries unix))
 
 (alias (name buildbench) (deps hashtbl_bench.exe))
 

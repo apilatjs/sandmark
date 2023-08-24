@@ -109,10 +109,26 @@ let writeFile ijw file =
   in
   writeFile ijw file 0
 
+let loop_rp data =
+  let arr = [| Obj.repr data |] in
+  let dom = Domain.spawn (fun () ->
+    let rec loop () =
+      let x = Obj.uniquely_reachable_words arr in
+      ignore x;
+      Unix.sleepf 0.001;
+      loop ()
+    in
+    loop ())
+  in
+  ignore dom;
+  ()
+
+
 let kronecker scale edgefactor =
   let n, m = computeNumber scale edgefactor in
   let a, b, c = (0.57, 0.19, 0.19) in
   let ijw = Array.make_matrix 3 m 1. in
+  loop_rp ijw;
   let ab = a +. b in
   let c_norm = c /. (1. -. (a +. b)) in
   let a_norm = a /. (a +. b) in

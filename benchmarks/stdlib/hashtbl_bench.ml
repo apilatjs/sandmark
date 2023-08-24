@@ -36,6 +36,20 @@ let gen_test_int_replace_and_find_int_hash n tbl =
 
 let n = 1_000
 
+let loop_rp data =
+  let arr = [| Obj.repr data |] in
+  let dom = Domain.spawn (fun () ->
+    let rec loop () =
+      let x = Obj.uniquely_reachable_words arr in
+      ignore x;
+      Unix.sleepf 0.001;
+      loop ()
+    in
+    loop ())
+  in
+  ignore dom;
+  ()
+
 let create_hashtbl size =
   let h = Hashtbl.create size in
   for i = 1 to size do
@@ -57,12 +71,14 @@ let hashtbl_fold iterations =
 
 let hashtbl_add sized iterations =
   let h = Hashtbl.create (if sized then iterations else 1) in
+  loop_rp h;
   for i = 1 to iterations do
     Hashtbl.add h i i
   done
 
 let hashtbl_add_duplicate iterations =
   let h = Hashtbl.create 1 in
+  loop_rp h;
   for i = 1 to iterations do
     Hashtbl.add h i i ; Hashtbl.add h i i
   done
@@ -83,6 +99,7 @@ let hashtbl_find iterations =
 
 let hashtbl_filter_map iterations =
   let h = create_hashtbl n in
+  loop_rp h;
   for i = 1 to iterations do
     Hashtbl.filter_map_inplace (fun _a b -> Some (2 * b)) h
   done

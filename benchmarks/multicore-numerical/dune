@@ -31,7 +31,8 @@
 (executable
  (name game_of_life)
  (modes native byte)
- (modules game_of_life))
+ (modules game_of_life)
+ (libraries unix))
 
 (executable
  (name game_of_life_multicore)
@@ -56,7 +57,8 @@
 (executable
  (name LU_decomposition)
  (modes native byte)
- (modules LU_decomposition))
+ (modules LU_decomposition)
+ (libraries unix))
 
 (executable
  (name floyd_warshall_multicore)
@@ -66,7 +68,8 @@
 (executable
  (name floyd_warshall)
  (modes native byte)
- (modules floyd_warshall))
+ (modules floyd_warshall)
+ (libraries unix))
 
 (executable
  (name matrix_multiplication_tiling_multicore)
