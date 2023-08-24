@@ -123,7 +123,6 @@ let loop_rp data =
   ignore dom;
   ()
 
-
 let kronecker scale edgefactor =
   let n, m = computeNumber scale edgefactor in
   let a, b, c = (0.57, 0.19, 0.19) in

@@ -29,18 +29,6 @@
       ]
     },
     {
-      "executable": "benchmarks/graph500seq/kronecker.exe",
-      "name": "kronecker",
-      "tags": [
-        "10s_100s"
-      ],
-      "runs": [
-        {
-          "params": "12 10"
-        }
-      ]
-    },
-    {
       "executable": "benchmarks/multicore-numerical/LU_decomposition.exe",
       "name": "LU_decomposition",
       "tags": [
