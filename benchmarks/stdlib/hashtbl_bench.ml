@@ -40,8 +40,7 @@ let loop_rp data =
   let arr = [| Obj.repr data |] in
   let dom = Domain.spawn (fun () ->
     let rec loop () =
-      let x = Obj.uniquely_reachable_words arr in
-      ignore x;
+      Unix.sleepf 0.001;
       loop ()
     in
     loop ())
