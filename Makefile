@@ -149,7 +149,7 @@ ifeq ($(OCAML_RUN_PARAM),)
 	$(eval OCAML_RUN_PARAM     = $(shell jq -r '.runparams // empty' ocaml-versions/$*.json))
 endif
 	opam update
-	OCAMLRUNPARAM="$(OCAML_RUN_PARAM)" OCAMLCONFIGOPTION="$(OCAML_CONFIG_OPTION)" opam switch create --keep-build-dir --yes $* ocaml-base-compiler.$*
+	opam switch $* || OCAMLRUNPARAM="$(OCAML_RUN_PARAM)" OCAMLCONFIGOPTION="$(OCAML_CONFIG_OPTION)" opam switch create --keep-build-dir --yes $* ocaml-base-compiler.$*
 	@{ case "$*" in \
 		*5.2*) opam pin add -n --yes --switch $* sexplib0.v0.15.0 https://github.com/shakthimaan/sexplib0.git#multicore;; \
 		*5.1*) opam pin add -n --yes --switch $* sexplib0.v0.15.0 https://github.com/shakthimaan/sexplib0.git#multicore;; \
@@ -276,8 +276,6 @@ ocaml-versions/%.bench: depend check-parallel/% filter/% override_packages/% log
 				s="$${s} $${key}=$${result}"; \
 			fi; \
 			done; \
-			header_entry=`jo -p $${s} | jq -c`; \
-			echo "$${header_entry}" > _results/$(SANDMARK_CUSTOM_NAME)_$$i.$(WRAPPER).summary.bench; \
 			find _build/$(CONFIG_SWITCH_NAME)_$$i -name '*.$(WRAPPER).bench' | xargs cat >> _results/$(SANDMARK_CUSTOM_NAME)_$$i.$(WRAPPER).summary.bench;		\
 		done;															\
 		exit $$ex;														\
